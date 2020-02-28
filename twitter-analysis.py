@@ -156,8 +156,12 @@ english_tweets = clean_content(english_tweets, 'tweet_text', 'English')
 spanish_tweets.to_csv('proj_data/spanish_tweets.csv', encoding='utf-8-sig')
 english_tweets.to_csv('proj_data/english_tweets.csv', encoding='utf-8-sig')
 
-spanish_tweets = pd.read_csv('proj_data/spanish_tweets.csv', encoding='utf-8-sig', index_col = 0).reset_index().drop(columns='index')
-english_tweets = pd.read_csv('proj_data/english_tweets.csv', encoding='utf-8-sig', index_col = 0).reset_index().drop(columns='index')
+spanish_tweets = pd.read_csv('proj_data/spanish_tweets.csv', encoding='utf-8-sig', index_col = 0).reset_index()
+english_tweets = pd.read_csv('proj_data/english_tweets.csv', encoding='utf-8-sig', index_col = 0).reset_index()
+english_tweets.lemmatized_tweet_text = english_tweets.lemmatized_tweet_text.astype('str')
+spanish_tweets.lemmatized_tweet_text = spanish_tweets.lemmatized_tweet_text.astype('str')
+
+
 
 from sklearn.feature_extraction.text import CountVectorizer
 
@@ -171,7 +175,7 @@ words = word_vectorizer.get_feature_names()
 # sum the count of each word over all Tweets
 word_count_total = word_count_sm.sum(axis=0)
 word_count_total_df = pd.DataFrame(word_count_total, columns = words)
-word_count_total_df.to_csv('xlsx/spanish_word_count_total.csv')
+word_count_total_df.to_csv('proj_data/spanish_word_count_total.csv')
 
 
 
