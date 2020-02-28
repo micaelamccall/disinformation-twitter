@@ -5,11 +5,7 @@ import os
 # Let the program know which is the current folder and which is the folder with the data in it
 PROJ_ROOT_DIR = os.getcwd()
 
-<<<<<<< HEAD
 DATA_PATH = os.path.join(PROJ_ROOT_DIR, "src_data")
-=======
-DATA_PATH = os.path.join(PROJ_ROOT_DIR, "csv")
->>>>>>> eafecf8c29cc183963df8987151224ca49ce449b
 if not os.path.isdir(DATA_PATH):  
     os.makedirs(DATA_PATH)
 
@@ -88,13 +84,9 @@ def detect_language(df, content_column):
 tweets_clean = detect_language(df = tweets_clean, content_column = 'tweet_text')
 
 
-<<<<<<< HEAD
 tweets_clean.to_csv("proj_data/tweets_clean.csv", encoding='utf-8-sig')
-=======
-tweets_clean.to_csv("csv/tweets_clean.csv")
->>>>>>> eafecf8c29cc183963df8987151224ca49ce449b
 
-tweets_clean = pd.read_csv("csv/tweets_clean.csv", index_col = 0, encoding='utf-8-sig')
+tweets_clean = pd.read_csv("proj_data/tweets_clean.csv", index_col = 0, encoding='utf-8-sig')
 tweets_clean.tweet_text = tweets_clean.tweet_text.astype('str')
 
 # Isolate tweets marked as Spanish by Twitter AND SpaCy 
@@ -161,11 +153,11 @@ spanish_tweets = clean_content(spanish_tweets, 'tweet_text', 'Spanish')
 
 english_tweets = clean_content(english_tweets, 'tweet_text', 'English')
 
-spanish_tweets.to_csv('csv/spanish_tweets.csv', encoding='utf-8-sig')
-english_tweets.to_csv('csv/english_tweets.csv', encoding='utf-8-sig')
+spanish_tweets.to_csv('proj_data/spanish_tweets.csv', encoding='utf-8-sig')
+english_tweets.to_csv('proj_data/english_tweets.csv', encoding='utf-8-sig')
 
-spanish_tweets = pd.read_csv('csv/spanish_tweets.csv', encoding='utf-8-sig', index_col = 0).reset_index().drop(columns='index')
-english_tweets = pd.read_csv('csv/english_tweets.csv', encoding='utf-8-sig', index_col = 0).reset_index().drop(columns='index')
+spanish_tweets = pd.read_csv('proj_data/spanish_tweets.csv', encoding='utf-8-sig', index_col = 0).reset_index().drop(columns='index')
+english_tweets = pd.read_csv('proj_data/english_tweets.csv', encoding='utf-8-sig', index_col = 0).reset_index().drop(columns='index')
 
 from sklearn.feature_extraction.text import CountVectorizer
 
@@ -254,10 +246,6 @@ hashtag_count_df.to_csv('xlsx/spanish_hashtag_count_total.csv', encoding='utf-8-
 spanish_tweets.urls = spanish_tweets.urls.replace({'[]': np.nan})
 
 
-<<<<<<< HEAD
-=======
-for 
->>>>>>> eafecf8c29cc183963df8987151224ca49ce449b
 
 
 tweets_with_link = 0
