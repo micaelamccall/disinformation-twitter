@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 **/src_data
+=======
+**/csv
+>>>>>>> eafecf8c29cc183963df8987151224ca49ce449b
 **/.ipynb_checkpoints
 **/__pycache__
 .DS_Store
