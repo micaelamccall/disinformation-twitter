@@ -196,14 +196,10 @@ phrase_count_total_df.to_csv('xlsx/spanish_phrase_57words_count_total.csv', enco
 # create matrix where each column is a word and each row is a count in each tweet
 word_count_sm = word_vectorizer.fit_transform(english_tweets['lemmatized_tweet_text'])
 words = word_vectorizer.get_feature_names()
-# word_count_df = pd.DataFrame(word_count_sm.todense(), columns=words).merge(spanish_tweets[['tweet_text']].reset_index().drop(columns='index'), how='outer', left_index= True, right_index=True)
-
-
 # sum the count of each word over all Tweets
 word_count_total = word_count_sm.sum(axis=0)
 word_count_total_df = pd.DataFrame(word_count_total, columns = words)
 word_count_total_df.to_csv('xlsx/english_word_count_total.csv')
-
 
 
 # only phrases that appear in more than 5 tweets (a way to decrease the size of the vocab)
@@ -219,11 +215,7 @@ phrase_count_total_df.to_csv('xlsx/english_phrase_34words_count_total.csv', enco
 phrase_count_total_df.to_csv('xlsx/english_phrase_57words_count_total.csv', encoding='utf-8-sig')
 
 
-# Isolate the tweet that mention Venezuela or Venezolano/a
-spanish_tweets_venezuela = spanish_tweets[spanish_tweets.tweet_text.str.contains("venez")]
-
-# Drop duplicates in the tweet text column to see how many are 
-spanish_tweets_no_content_copy = spanish_tweets.tweet_text.drop_duplicates()
+############# Hashtag analysis ################
 
 # Remove parens and filter hashtags
 hashtags = []
@@ -246,24 +238,30 @@ hashtag_count_df = pd.DataFrame(hashtag_total, columns= hashtags)
 hashtag_count_df.to_csv('xlsx/spanish_hashtag_count_total.csv', encoding='utf-8-sig')
 
 
-# Tweets without link
+
+######### Tweets the mention Venezuela ##########
+# Isolate the tweet that mention Venezuela or Venezolano/a
+spanish_tweets_venezuela = spanish_tweets[spanish_tweets.tweet_text.str.contains("venez")]
+
+
+########## Duplicates ############
+# Drop duplicates in the tweet text column to see how many are 
+spanish_tweets_no_content_copy = spanish_tweets.tweet_text.drop_duplicates()
+
+
+######### Link Farming #############
+# Replace tweets without link with Null value
 spanish_tweets.urls = spanish_tweets.urls.replace({'[]': np.nan})
-
-
-
 
 tweets_with_link = 0
 tweets_wout_link = 0
-
 for url in spanish_tweets.urls:
     if pd.isnull(url) == True:
         tweets_with_link +=1
     else:
         tweets_wout_link += 1
 
-
-
-spanish_tweets_url_RT  = spanish_tweets[(pd.notnull(spanish_tweets.urls) & (spanish_tweets.tweet_text.str.startswith('RT')))]
+# spanish_tweets_url_RT  = spanish_tweets[(pd.notnull(spanish_tweets.urls) & (spanish_tweets.tweet_text.str.startswith('RT')))]
 spanish_tweets_url  = spanish_tweets[pd.notnull(spanish_tweets.urls)]
 spanish_tweets_url.to_csv('xlsx/spanish_tweets_url.csv', encoding='utf-8-sig')
 spanish_tweets_url_at = spanish_tweets_url[spanish_tweets_url.tweet_text.str.contains('@')]
@@ -272,6 +270,7 @@ spanish_tweets_url_at_rt = spanish_tweets_url_at[spanish_tweets_url_at.tweet_tex
 spanish_tweets_url_at_rt.to_csv('xlsx/spanish_tweets_url_@_rt.csv', encoding='utf-8-sig')
 
 
+######## Date analysis ###############
 tweet_date = []
 for date in spanish_tweets.tweet_time:
     tweet_date.append(str(date)[:-5].strip())
